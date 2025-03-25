@@ -53,6 +53,10 @@ configurar_wayland_no_container() {
 
     # Configura a variável de ambiente WAYLAND_DISPLAY no container
     echo "Configurando a variável WAYLAND_DISPLAY no container..."
+    lxc exec "$CONTAINER_NAME" -- bash -c "echo 'export WAYLAND_DISPLAY=$WAYLAND_CONTAINER_DIR/wayland-0' >> /etc/profile"
+
+    # Adiciona o export ao arquivo de inicialização permanente
+    echo "Aplicando configuração ao arquivo de inicialização do container..."
     lxc exec "$CONTAINER_NAME" -- bash -c "echo 'export WAYLAND_DISPLAY=$WAYLAND_CONTAINER_DIR/wayland-0' >> /etc/environment"
 
     # Permite que o container use o display Wayland
@@ -66,3 +70,4 @@ configurar_wayland_no_container() {
 verificar_dependencias
 configurar_wayland_no_container
 
+echo "Configuração permanente concluída! As alterações foram aplicadas automaticamente e não será necessário reexecutar o script no futuro."
