@@ -19,25 +19,7 @@ else
   echo "O container '$CONTAINER' já está em execução."
 fi
 
-# Verifica se os arquivos de imagem estão na pasta ./images
-IMAGES_DIR="./images"
-if [ -d "$IMAGES_DIR" ]; then
-  echo "Procurando imagens no diretório $IMAGES_DIR..."
-  REQUIRED_IMAGES=("system.img" "vendor.img")
-  for IMAGE in "${REQUIRED_IMAGES[@]}"; do
-    if [ -f "$IMAGES_DIR/$IMAGE" ]; then
-      echo "Encontrado $IMAGE. Copiando para o container..."
-      sudo lxc file push "$IMAGES_DIR/$IMAGE" "$CONTAINER"/var/lib/waydroid/images/
-    else
-      echo "Imagem $IMAGE não encontrada no diretório $IMAGES_DIR."
-    fi
-  done
-else
-  echo "O diretório $IMAGES_DIR não existe. Certifique-se de que as imagens estão no local correto."
-  exit 1
-fi
-
-# Verifica se o Waydroid está inicializado no container
+# Executa o comando dentro do container para verificar o estado do Waydroid
 echo "Verificando se o Waydroid está inicializado dentro do container '$CONTAINER'..."
 WAYDROID_STATUS=$(sudo lxc exec "$CONTAINER" -- bash -c "systemctl is-active waydroid-container" 2>/dev/null)
 
