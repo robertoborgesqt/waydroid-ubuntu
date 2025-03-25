@@ -1,0 +1,2 @@
+sudo lxc-ls --fancy
+

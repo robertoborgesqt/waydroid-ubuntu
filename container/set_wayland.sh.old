@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Verifica se o script está sendo executado como root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Este script deve ser executado como root. Use 'sudo'."
+    exit 1
+fi
+
+# Caminho para o socket Wayland no container
+WAYLAND_SOCKET="/mnt/wayland-share/wayland-0"
+CONTAINER_SOCKET="/run/user/$(id -u)/wayland-0"
+
+# Verifica se o socket Wayland montado do host está acessível
+if [ ! -S "$WAYLAND_SOCKET" ]; then
+    echo "O socket Wayland montado do host não foi encontrado em $WAYLAND_SOCKET."
+    echo "Certifique-se de que o host está compartilhando o socket corretamente."
+    exit 1
+fi
+
+# Certifica-se de que o diretório do Wayland no container existe
+echo "Criando o diretório do socket Wayland no container..."
+mkdir -p "$(dirname "$CONTAINER_SOCKET")"
+
+# Cria um link simbólico para o socket Wayland do host no container
+echo "Ligando o socket Wayland do host ao local esperado no container..."
+ln -sf "$WAYLAND_SOCKET" "$CONTAINER_SOCKET"
+
+# Ajusta permissões para o socket no container
+echo "Ajustando permissões no socket Wayland..."
+chmod 666 "$CONTAINER_SOCKET"
+
+# Verifica se o link simbólico foi criado corretamente
+if [ -L "$CONTAINER_SOCKET" ]; then
+    echo "O socket Wayland foi configurado com sucesso em $CONTAINER_SOCKET."
+else
+    echo "Falha ao criar o link simbólico para o socket Wayland."
+    exit 1
+fi
+
+# Configuração de variáveis de ambiente para uso no container
+echo "Certifique-se de exportar a variável de ambiente WAYLAND_DISPLAY no container:"
+echo "    export WAYLAND_DISPLAY=$CONTAINER_SOCKET"
+
+# Confirmação de conclusão
+echo "Configuração do Wayland dentro do container concluída."
+
