@@ -65,10 +65,8 @@ Execute cada script na ordem listada acima, passando o nome do container como ar
 Verifique as mensagens exibidas pelo script para garantir que todas as etapas foram concluídas com sucesso.
 
 Requisitos
-Sistema operacional Linux com suporte ao LXC/LXD.
-
-
-Wayland configurado e funcional no host.
+ Sistema operacional Linux com suporte ao LXC/LXD.
+ Wayland configurado e funcional no host.
 
 Dependências instaladas automaticamente pelos scripts, como wayland-protocols, libwayland-dev, entre outros.
 
@@ -77,14 +75,10 @@ Observações
  Use os scripts em ambientes controlados e assegure-se de que os containers têm permissões adequadas para acessar os recursos compartilhados.
 
 Based on: 
-
-Use case:  https://gist.github.com/stueja/447bd3bc0d510a0a7e50f9f1ef58ad75
-
-Waidroid:  https://sourceforge.net/projects/waydroid/
-
-LXD:       https://documentation.ubuntu.com/server/how-to/containers/lxd-containers/
-
-Install:   https://docs.waydro.id/usage/install-on-desktops
-           https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop
+ Use case:  https://gist.github.com/stueja/447bd3bc0d510a0a7e50f9f1ef58ad75
+ Waidroid:  https://sourceforge.net/projects/waydroid/
+ LXD:       https://documentation.ubuntu.com/server/how-to/containers/lxd-containers/
+ Install:   https://docs.waydro.id/usage/install-on-desktops
+            https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop
 
   
