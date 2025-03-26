@@ -77,10 +77,14 @@ Observações
  Use os scripts em ambientes controlados e assegure-se de que os containers têm permissões adequadas para acessar os recursos compartilhados.
 
 Based on: 
-  https://gist.github.com/stueja/447bd3bc0d510a0a7e50f9f1ef58ad75
-  https://sourceforge.net/projects/waydroid/
-  https://documentation.ubuntu.com/server/how-to/containers/lxd-containers/
-  https://docs.waydro.id/usage/install-on-desktops
-  https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop
+
+Use case:  https://gist.github.com/stueja/447bd3bc0d510a0a7e50f9f1ef58ad75
+
+Waidroid:  https://sourceforge.net/projects/waydroid/
+
+LXD:       https://documentation.ubuntu.com/server/how-to/containers/lxd-containers/
+
+Install:   https://docs.waydro.id/usage/install-on-desktops
+           https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop
 
   
