@@ -67,10 +67,19 @@ Verifique as mensagens exibidas pelo script para garantir que todas as etapas fo
 Requisitos
 Sistema operacional Linux com suporte ao LXC/LXD.
 
+
 Wayland configurado e funcional no host.
 
 Dependências instaladas automaticamente pelos scripts, como wayland-protocols, libwayland-dev, entre outros.
 
 Observações
-Certifique-se de que o módulo binder_linux está carregado no host antes de executar o script de compartilhamento do binder.
-Use os scripts em ambientes controlados e assegure-se de que os containers têm permissões adequadas para acessar os recursos compartilhados.
+ Certifique-se de que o módulo binder_linux está carregado no host antes de executar o script de compartilhamento do binder.
+ Use os scripts em ambientes controlados e assegure-se de que os containers têm permissões adequadas para acessar os recursos compartilhados.
+
+Based on: 
+  ** https://gist.github.com/stueja/447bd3bc0d510a0a7e50f9f1ef58ad75
+  ** https://sourceforge.net/projects/waydroid/
+  ** https://documentation.ubuntu.com/server/how-to/containers/lxd-containers/
+  ** https://docs.waydro.id/usage/install-on-desktops
+
+  
