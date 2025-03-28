@@ -1,26 +1,32 @@
 #!/bin/bash
 
+# Códigos de cores ANSI
+BLUE="\033[1;34m"
+YELLOW="\033[1;33m"
+RED="\033[1;31m"
+RESET="\033[0m"
+
 # Verifica se o script está sendo executado como root
 if [ "$(id -u)" -ne 0 ]; then
-  echo "Por favor, execute este script como root ou usando sudo."
+  echo -e "${RED}Por favor, execute este script como root ou usando sudo.${RESET}"
   exit 1
 fi
 
-echo "Atualizando pacotes do sistema..."
+echo -e "${BLUE}Atualizando pacotes do sistema...${RESET}"
 apt update && apt upgrade -y
 
-echo "Instalando pacotes necessários para Wayland..."
+echo -e "${BLUE}Instalando pacotes necessários para Wayland...${RESET}"
 apt install -y wayland gnome-session-wayland
 
-echo "Configurando o LightDM para suportar Wayland..."
+echo -e "${BLUE}Configurando o LightDM para suportar Wayland...${RESET}"
 
 LIGHTDM_CONFIG="/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf"
 
 if [ -f "$LIGHTDM_CONFIG" ]; then
-  echo "Editando $LIGHTDM_CONFIG..."
+  echo -e "${YELLOW}Editando $LIGHTDM_CONFIG...${RESET}"
   sed -i 's/session-wrapper=\/etc\/X11\/Xsession/session-wrapper=\/etc\/wayland-session/' "$LIGHTDM_CONFIG"
 else
-  echo "Criando configuração do LightDM..."
+  echo -e "${YELLOW}Criando configuração do LightDM...${RESET}"
   cat <<EOF >"$LIGHTDM_CONFIG"
 [Seat:*]
 allow-guest=false
@@ -28,7 +34,7 @@ session-wrapper=/etc/wayland-session
 EOF
 fi
 
-echo "Criando arquivo de sessão para Wayland..."
+echo -e "${BLUE}Criando arquivo de sessão para Wayland...${RESET}"
 WAYLAND_SESSION="/usr/share/wayland-sessions/gnome-wayland.desktop"
 
 cat <<EOF >"$WAYLAND_SESSION"
@@ -42,6 +48,5 @@ DesktopNames=GNOME
 X-LightDM-DesktopName=GNOME
 EOF
 
-echo "Reiniciando o sistema..."
+echo -e "${BLUE}Reiniciando o sistema...${RESET}"
 reboot
-

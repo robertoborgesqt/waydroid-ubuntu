@@ -1,0 +1,1 @@
+sudo lxc exec $1 -- bash

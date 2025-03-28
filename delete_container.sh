@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# Verifica se o nome do container foi fornecido como argumento
-if [ -z "$1" ]; then
-    echo "Uso: $0 <nome_do_container>"
-    exit 1
-fi
 
 # Nome do container passado como argumento
 CONTAINER_NAME="$1"
+# Verifica se o script recebeu o nome do container como argumento
+if [ -z "$CONTAINER_NAME" ]; then
+    read -p "Por favor, insira o nome do container: " CONTAINER_NAME
+    if [ -z "$CONTAINER_NAME" ]; then
+        echo -e "${YELLOW}Erro: O nome do container não pode estar vazio.${NC}"
+        exit 1
+    fi
+fi
 
 # Verifica se o container existe
 if ! lxc list | grep -q "^| $CONTAINER_NAME "; then

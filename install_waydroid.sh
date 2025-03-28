@@ -1,13 +1,17 @@
 #!/bin/bash
 
-# Verifica se um nome de container foi fornecido como argumento
-if [ -z "$1" ]; then
-    echo -e "\033[31mErro: Uso: $0 <nome_do_container>\033[0m"
-    exit 1
-fi
 
 # Nome do container é passado como argumento
 CONTAINER_NAME="$1"
+
+# Verifica se o script recebeu o nome do container como argumento
+if [ -z "$CONTAINER_NAME" ]; then
+    read -p "Por favor, insira o nome do container: " CONTAINER_NAME
+    if [ -z "$CONTAINER_NAME" ]; then
+        echo -e "${YELLOW}Erro: O nome do container não pode estar vazio.${NC}"
+        exit 1
+    fi
+fi
 
 # Certifica-se de que o container está em execução
 echo -e "\033[32mVerificando se o container $CONTAINER_NAME está rodando...\033[0m"
