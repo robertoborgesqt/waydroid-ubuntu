@@ -6,13 +6,16 @@ WARNING="\033[1;33m" # Amarelo
 ERROR="\033[1;31m"   # Vermelho
 RESET="\033[0m"      # Resetar cor
 
-# Verifica se o nome do container foi fornecido como argumento
-if [ -z "$1" ]; then
-    echo -e "${ERROR}Erro: Uso: $0 <nome_do_container>${RESET}"
-    exit 1
-fi
-
 CONTAINER_NAME="$1"
+
+# Verifica se o script recebeu o nome do container como argumento
+if [ -z "$CONTAINER_NAME" ]; then
+    read -p "Por favor, insira o nome do container: " CONTAINER_NAME
+    if [ -z "$CONTAINER_NAME" ]; then
+        echo -e "${YELLOW}Erro: O nome do container não pode estar vazio.${NC}"
+        exit 1
+    fi
+fi
 
 # Diretório compartilhado do Wayland
 WAYLAND_HOST_DIR="/run/user/1000"

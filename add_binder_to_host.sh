@@ -26,9 +26,14 @@ else
 fi
 
 # Configura a montagem do binder no sistema de arquivos
-echo -e "${NORMAL}Criando os pontos de montagem para o binder...${RESET}"
-mkdir -p /dev/binderfs
-mount -t binder binder /dev/binderfs
+echo -e "${NORMAL}Verificando se os pontos de montagem para o binder já existem...${RESET}"
+if ! mount | grep -q "/dev/binderfs"; then
+    echo -e "${NORMAL}Criando os pontos de montagem para o binder...${RESET}"
+    mkdir -p /dev/binderfs
+    mount -t binder binder /dev/binderfs
+else
+    echo -e "${NORMAL}Os pontos de montagem para o binder já estão presentes.${RESET}"
+fi
 
 # Verifica se a montagem foi bem-sucedida
 if mount | grep -q "/dev/binderfs"; then

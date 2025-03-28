@@ -13,14 +13,17 @@ function yellow() {
     echo -e "\e[33m$1\e[0m"
 }
 
-# Verifica se o nome do container foi fornecido como argumento
-if [ -z "$1" ]; then
-    red "Uso: $0 <nome_do_container>"
-    exit 1
-fi
-
 # Nome do container passado como argumento
 CONTAINER_NAME="$1"
+
+# Verifica se o script recebeu o nome do container como argumento
+if [ -z "$CONTAINER_NAME" ]; then
+  read -p "Por favor, insira o nome do container: " CONTAINER_NAME
+  if [ -z "$CONTAINER_NAME" ]; then
+    echo -e "${RED}Erro: O nome do container não pode estar vazio.${NC}"
+    exit 1
+  fi
+fi
 
 green "=== Compartilhando o binder com o container $CONTAINER_NAME ==="
 

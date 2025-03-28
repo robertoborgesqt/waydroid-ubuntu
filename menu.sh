@@ -11,10 +11,16 @@ exibir_menu() {
     echo -e "\e[32m--------------------------------\e[0m"
     local i=1
     for script in "$SCRIPT_DIR"/*.sh; do
-        [ -f "$script" ] && echo "$i) $(basename "$script")"
+        if [ -f "$script" ]; then
+            if [ "$i" -lt 10 ]; then
+                echo " $i) $(basename "$script")"
+            else
+                echo "$i) $(basename "$script")"
+            fi
+        fi
         ((i++))
     done
-    echo "0) Sair"
+    echo " 0) Sair"
 }
 
 # Função para executar o script selecionado
@@ -23,6 +29,7 @@ executar_opcao() {
     local i=1
     for script in "$SCRIPT_DIR"/*.sh; do
         if [ "$i" -eq "$opcao" ]; then
+            clear
             bash "$script"
             return
         fi
