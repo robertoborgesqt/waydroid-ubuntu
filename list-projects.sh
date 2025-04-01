@@ -1,0 +1,2 @@
+lxc project list
+
