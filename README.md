@@ -107,3 +107,5 @@ sudo ./configurar_wayland.sh <nome_do_container>
   - [https://docs.waydro.id/usage/install-on-desktops](https://docs.waydro.id/usage/install-on-desktops)  
   - [https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop](https://linuxconfig.org/how-to-enable-disable-wayland-on-ubuntu-22-04-desktop)
 
+- **Binder:**  
+  - [https://www.reddit.com/r/linux4noobs/comments/rdpsz4/driver_problem_while_attempting_to_install/]
