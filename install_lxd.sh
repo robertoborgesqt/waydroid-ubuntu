@@ -35,13 +35,15 @@ sudo snap install lxd
 echo -e "${BLUE}Configurando o LXD...${RESET}"
 sudo lxd init --auto
 
-# Adicionar o usuário ao grupo LXD
-# echo -e "${BLUE}Adicionando o usuário atual ao grupo LXD...${RESET}"
-# sudo usermod -aG lxd $USER
+# Configurar acesso remoto no LXD
+echo -e "${BLUE}Configurando acesso remoto no LXD na porta 8443...${RESET}"
+sudo lxc config set core.https_address :8443
+
+# Configurar firewall para permitir conexões na porta 8443
+echo -e "${BLUE}Configurando o firewall para permitir conexões na porta 8443...${RESET}"
+sudo ufw allow 8443/tcp
 
 # Finalização
 echo -e "${BLUE}LXD instalado e configurado com sucesso!${RESET}"
-echo -e "${YELLOW}Reinicie sua sessão para que as alterações de grupo tenham efeito.${RESET}"
-
-# Testar o LXD
-echo -e "${BLUE}Para testar o LXD, execute o comando: lxc list${RESET}"
+echo -e "${BLUE}Acesso remoto habilitado na porta 8443.${RESET}"
+echo -e "${YELLOW}Para acessar remotamente, use o endereço: https://127.0.0.1:8443/${RESET}"
