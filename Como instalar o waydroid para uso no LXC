@@ -1,0 +1,122 @@
+﻿Como instalar e ter multiplas instancias do waydroid para uso no LXC
+
+** Para instalar o Waydroid no LXC e configurar múltiplas instâncias, 
+   siga estas etapas:
+
+** Instale o LXC:
+sudo apt update
+sudo apt install lxc
+
+** Crie um contêiner LXC:
+sudo lxc-create -t download -n waydroid-container -- -d ubuntu -r focal -a amd64
+
+** Inicie o contêiner:
+sudo lxc-start -n waydroid-container
+
+** Acesse o contêiner:
+sudo lxc-attach -n waydroid-container
+
+** Instale o Waydroid no contêiner:
+sudo apt update
+sudo apt install curl
+curl -s https://repo.waydro.id | sudo bash
+sudo apt install waydroid
+
+** Configure o Waydroid:
+sudo waydroid init
+sudo systemctl start waydroid-container
+
+** Inicie o Waydroid:
+waydroid session start
+
+
+*************************************************************************************
+*** Problema inicialização do waydroid, criar os links corretos:
+*************************************************************************************
+Criar novos links simbólicos permite que o waydroid inicie normalmente:
+
+sudo ln -sf /dev/binderfs/anbox-binder /dev/binder
+sudo ln -sf /dev/binderfs/anbox-hwbinder /dev/hwbinder
+sudo ln -sf /dev/binderfs/anbox-vndbinder /dev/vndbinder
+sudo ln -sf /dev/binderfs/binder-control /dev/binder-control
+
+sudo systemctl restart waydroid-container.service
+O início da sessão agora funciona
+
+*************************************************************************************
+*** Problema inicialização do waydroid no ubuntu
+*************************************************************************************
+
+Para verificar o status do container (No Ubuntu):
+
+> Execute o comando sudo lxc-ls --fancy para verificar se o container "waydroid-container" está rodando.
+
+> Se não estiver em execução, inicie-o com:
+ sudo lxc-start -n waydroid-container.
+
+> Verifique os logs do container para identificar possíveis erros específicos:
+sudo lxc-info -n waydroid-container
+sudo lxc-start -n waydroid-container --logfile=/var/log/lxc/waydroid-container.log --logpriority=DEBUG
+
+
+
+*************************************************************************************
+Para criar múltiplas instâncias do Waydroid, você pode repetir os passos 
+acima para cada contêiner LXC que deseja criar. Cada contêiner funcionará 
+de forma isolada, permitindo que você execute várias instâncias do 
+Waydroid simultaneamente.
+*************************************************************************************
+Se precisar de mais detalhes ou ajuda, você pode consultar a documentação 
+oficial do Waydroid. Boa sorte com seu projeto!
+*************************************************************************************
+ 
+ wget http://archive.ubuntu.com/ubuntu/pool/main/l/linux/linux-headers-6.8.0-55-generic_6.8.0-55.57_amd64.deb
+sudo dpkg -i linux-headers-6.8.0-55-generic_6.8.0-55.57_amd64.deb
+
+*************************************************************************************
+2. Ajustar Permissões para o X11/Wayland
+*************************************************************************************
+Se estiver usando X11, no host:
+
+xhost +SI:localuser:root
+
+> Se for Wayland, tente compartilhar o socket:
+
+lxc config device add waydroid WAYLAND0 proxy \
+	listen=unix:/run/user/$(id -u)/wayland-0 \
+	connect=unix:/run/user/$(id -u)/wayland-0
+
+> Dentro do contêiner, defina a variável DISPLAY:
+
+	export DISPLAY=:0
+	export WAYLAND_DISPLAY=wayland-0
+	
+> Para testar:
+
+	echo $DISPLAY
+	echo $WAYLAND_DISPLAY
+
+*************************************************************************************
+Certificados via Windows
+*************************************************************************************
+
+	openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout lxd-ui.key -out lxd-ui.crt
+	
+	 Chrome
+		openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout lxd-ui.key -out lxd-ui.crt
+
+	  
+	 Transfira o arquivo  para o servidor onde o LXD está configurado
+	 	 scp lxd-ui.crt usuario@ip_do_windows:/caminho/Downloads/
+		 
+	 No servidor, execute o comando:
+	 
+		lxc config trust add /caminho/completo/lxd-ui.crt
+		
+
+	 Agora, você deve conseguir acessar o LXD remotamente usando o endereço .
+		
+		https://192.168.68.106:8443 
+		
+*************************************************************************************
+
